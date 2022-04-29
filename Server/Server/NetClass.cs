@@ -10,7 +10,7 @@ namespace Server
 {
     class NetClass
     {
-        static string address = "192.168.43.78";
+        static string address = "192.168.1.116";
         static int port = 8005; // Порт для приёма
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Leonid\\source\\repos\\Server\\Server\\Server.csproj": {}
+    "D:\\File\\GitHub\\Client-Server\\Server\\Server\\Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Leonid\\source\\repos\\Server\\Server\\Server.csproj": {
+    "D:\\File\\GitHub\\Client-Server\\Server\\Server\\Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Leonid\\source\\repos\\Server\\Server\\Server.csproj",
+        "projectUniqueName": "D:\\File\\GitHub\\Client-Server\\Server\\Server\\Server.csproj",
         "projectName": "Server",
-        "projectPath": "C:\\Users\\Leonid\\source\\repos\\Server\\Server\\Server.csproj",
+        "projectPath": "D:\\File\\GitHub\\Client-Server\\Server\\Server\\Server.csproj",
         "packagesPath": "C:\\Users\\Leonid\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Leonid\\source\\repos\\Server\\Server\\obj\\",
+        "outputPath": "D:\\File\\GitHub\\Client-Server\\Server\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Leonid\\AppData\\Roaming\\NuGet\\NuGet.Config",

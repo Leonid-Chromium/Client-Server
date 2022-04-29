@@ -10,7 +10,7 @@ namespace Server
 {
     class NetClass
     {
-        const string ip = "127.0.0.1";
+        const string ip = "192.168.1.117";
         const int port = 7373; // Порт для приёма
 
         Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);

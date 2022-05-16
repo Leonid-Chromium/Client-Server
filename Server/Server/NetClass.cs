@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
@@ -18,15 +19,19 @@ namespace Server
         public static void Server()
         {
             // получаем адреса для запуска сокета
-            IPEndPoint tcpEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
-            
-            Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); // создаем сокет
+           IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
 
+            // создаем сокет
+            Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
-            {                
-                listenSocket.Bind(tcpEndPoint); // связываем сокет с локальной точкой, по которой будем принимать данные        
-                listenSocket.Listen(10); // начинаем прослушивание
+            {
+                // связываем сокет с локальной точкой, по которой будем принимать данные
+                listenSocket.Bind(ipPoint);
 
+                // начинаем прослушивание
+                listenSocket.Listen(10);
+
+                Console.Clear();
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
 
                 while (true)
@@ -38,15 +43,21 @@ namespace Server
 
                     do
                     {
-                        size = server.Receive(buffer);
-                        data.Append(Encoding.UTF8.GetString(buffer, 0, size));
+                        if (server.Available != 0)
+                        {
+                            size = server.Receive(buffer);
+                            data.Append(Encoding.UTF8.GetString(buffer, 0, size));
+                        }
+                        else
+                        {
+                            data.Append("Кто-то хочет сломать сервер");
+                        }
                     }
                     while (server.Available > 0);
 
                     Console.WriteLine(DateTime.Now.ToShortTimeString() + ": " + data);
-                    
                     server.Send(Encoding.UTF8.GetBytes("Ваше сообщение доставлено")); // отправляем ответ
-                    
+
                     server.Shutdown(SocketShutdown.Both); // закрываем сокет
                     server.Close();
                 }
@@ -63,14 +74,14 @@ namespace Server
             {
                 IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse(ip), port);
 
-                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 Console.Write("Введите сообщение:");
                 string message = Console.ReadLine();
                 var data = Encoding.UTF8.GetBytes(message);
 
-                socket.Connect(ipPoint); // подключаемся к удаленному хосту
-                socket.Send(data);
+                client.Connect(ipPoint); // подключаемся к удаленному хосту
+                client.Send(data);
 
                 // получаем ответ
                 var buffer = new byte[256]; // буфер для ответа
@@ -79,16 +90,17 @@ namespace Server
 
                 do
                 {
-                    size = socket.Receive(buffer);
+                    
+                    size = client.Receive(buffer);
                     answer.Append(Encoding.UTF8.GetString(buffer, 0, size));
                 }
-                while (socket.Available > 0);
+                while (client.Available > 0);
 
                 Console.WriteLine("Ответ сервера: " + answer.ToString());
 
                 // закрываем сокет
-                socket.Shutdown(SocketShutdown.Both);
-                socket.Close();
+                client.Shutdown(SocketShutdown.Both);
+                client.Close();
                 Client();
 
             }
